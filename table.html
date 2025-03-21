@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Information</title>
+    <link rel="stylesheet" href="tableStyle.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Class Information Form</h2>
+        <form id="classForm">
+            <input type="text" id="className" placeholder="Class Name" required> <p></p>
+            <input type="number" id="numberOfPeople" placeholder="Number of People" required><p></p>
+            <textarea id="description" placeholder="Description" required></textarea><p></p>
+            <button type="submit">Add Class</button>
+        </form>
+        
+        <h2>Class List</h2>
+        <table id="classTable">
+            <thead>
+                <tr>
+                    <th>Class Name</th>
+                    <th>Number of People</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dinamik olarak satırlar buraya eklenecek -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById("classForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Sayfanın yeniden yüklenmesini engeller
+
+            let className = document.getElementById("className").value;
+            let numberOfPeople = document.getElementById("numberOfPeople").value;
+            let description = document.getElementById("description").value;
+
+            let table = document.getElementById("classTable").getElementsByTagName("tbody")[0];
+            let newRow = table.insertRow();
+
+            newRow.innerHTML = `<td>${className}</td><td>${numberOfPeople}</td><td>${description}</td>`;
+
+            // Satıra tıklayınca vurgulama
+            newRow.addEventListener("click", function() {
+                console.log(`Selected: ${className}, ${numberOfPeople} people`);
+                newRow.classList.toggle("highlight");
+            });
+
+            // Çift tıklayınca silme
+            newRow.addEventListener("dblclick", function() {
+                if (confirm("Do you want to delete this row?")) {
+                    table.removeChild(newRow);
+                }
+            });
+
+            // Üzerine gelince arka plan değiştir
+            newRow.addEventListener("mouseover", function() {
+                newRow.style.backgroundColor = "lightblue";
+            });
+
+            // Mouse çıkınca eski haline getir
+            newRow.addEventListener("mouseout", function() {
+                newRow.style.backgroundColor = "";
+            });
+
+            // Formu sıfırla
+            document.getElementById("className").value = "";
+            document.getElementById("numberOfPeople").value = "";
+            document.getElementById("description").value = "";
+        });
+    </script>
+</body>
+</html>
